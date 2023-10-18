@@ -12,7 +12,7 @@ func get_pathfinding_path(start: Vector2, target: Vector2):
 	# If we have a path then we will start our pathing from where we will be.
 	if has_path():
 		path = pathfinding.get_point_path(
-			grid.world_to_grid(path[0]),
+			grid.world_to_nearest_grid(path[0]),
 			target
 		)
 	else:
@@ -27,7 +27,7 @@ func get_next_destination() -> Vector2:
 
 func get_end_destination() -> Vector2:
 	if has_path():
-		return path[len(path)-1]
+		return path[-1]
 	else:
 		return unit.pos
 
@@ -42,9 +42,9 @@ func has_path() -> bool:
 func update_path() -> void:
 	if has_path():
 		if unit.position.distance_to(path[0]) < 5:
-			unit.pos = grid.world_to_grid(path[0])
+			unit.pos = grid.world_to_nearest_grid(path[0])
 			unit.position = path[0]
 			path.pop_front()
 		else:
-			unit.pos = grid.world_to_grid(unit.position)
+			unit.pos = grid.world_to_nearest_grid(unit.position)
 			
