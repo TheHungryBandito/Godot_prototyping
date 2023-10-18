@@ -1,11 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://cbd1hv4augngu"]
+[gd_scene load_steps=15 format=3 uid="uid://cbd1hv4augngu"]
 
 [ext_resource type="Texture2D" uid="uid://bbol5m1w1n3e6" path="res://Art/dirt.png" id="1_i40fn"]
 [ext_resource type="Texture2D" uid="uid://bdkv6badm5bpx" path="res://Art/grass.png" id="2_alywr"]
 [ext_resource type="Texture2D" uid="uid://e3gd4gbclmbm" path="res://Art/mud.png" id="3_5itbu"]
 [ext_resource type="Script" path="res://Scenes/World/grid.gd" id="4_twfpt"]
 [ext_resource type="PackedScene" uid="uid://b46prr50oevuf" path="res://Scenes/World/pathfinding.tscn" id="5_orpjh"]
+[ext_resource type="Resource" uid="uid://c2e7iyjkvwqw" path="res://Data/Floor/dirt.tres" id="5_um71d"]
 [ext_resource type="PackedScene" uid="uid://bfd61s43t4al8" path="res://Scenes/Units/unit.tscn" id="6_2ek8o"]
+[ext_resource type="Resource" uid="uid://0cokxbr0h84n" path="res://Data/Floor/grass.tres" id="6_42jia"]
+[ext_resource type="Resource" uid="uid://cvc21op4503gh" path="res://Data/Floor/mud.tres" id="7_7kba7"]
 [ext_resource type="PackedScene" uid="uid://cpqlvet054t5n" path="res://Scenes/resource_node.tscn" id="7_162os"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q3fou"]
@@ -58,6 +61,8 @@ layer_2/z_index = 2
 layer_2/tile_data = PackedInt32Array()
 script = ExtResource("4_twfpt")
 show_debug = true
+_floor_datas = Array[Resource]([ExtResource("7_7kba7"), ExtResource("5_um71d"), ExtResource("6_42jia")])
+_thresholds = Array[float]([0.2, 0.3, 0.5])
 
 [node name="Pathfinding" parent="." instance=ExtResource("5_orpjh")]
 
