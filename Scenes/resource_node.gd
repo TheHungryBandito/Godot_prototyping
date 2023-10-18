@@ -17,12 +17,16 @@ var pos: Vector2 :
 	get:
 		return pos
 	set(value):
+		if grid.get_cell_occupier(pos) == self and value != pos:
+			grid.set_cell_occupier(pos, null)
 		pos = value
+		if grid.get_cell_occupier(pos) == null:
+			grid.set_cell_occupier(pos, self)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pos = grid.world_to_grid(position)
-	data.name = "George"
+	grid.on_grid_generated.connect(_on_grid_generated)
+	data.name = "Rock"
 	data.description = "Old Fool"
 	data.stored_resources = {}
 	
@@ -34,6 +38,9 @@ func _ready():
 	inventory_component.on_item_added.connect(_on_item_added)
 	inventory_component.on_item_removed.connect(_on_item_removed)
 
+func _on_grid_generated():
+	pos = grid.world_to_grid(position)
+	
 func _on_item_added(transaction: InventoryTransaction):
 	popup_component.popout_text("".join(["+", str(transaction.amount)]), Color.DARK_SEA_GREEN)
 
@@ -61,3 +68,6 @@ func harvest(attack: Attack):
 	
 func get_object_type():
 	return "Resource"
+	
+func _to_string():
+	return data.name
