@@ -19,18 +19,16 @@ var pos: Vector2 :
 	get:
 		return pos
 	set(value):
-		if value != pos:
+		if grid.get_cell_occupier(pos) == self and value != pos:
 			grid.set_cell_occupier(pos, null)
-			grid.set_cell_navigable(pos, true)
 		pos = value
-		if grid.get_cell_occupier(pos) != self:
+		if grid.get_cell_occupier(pos) == null:
 			grid.set_cell_occupier(pos, self)
-			grid.set_cell_navigable(pos, false)
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pos = grid.world_to_grid(position)
+	grid.on_grid_generated.connect(_on_grid_generated)
 	data.name = "George"
 	data.description = "Old Fool"
 	data.stats = "Super Buff"
@@ -41,6 +39,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	move(delta)
+
+func _on_grid_generated():
+	pos = grid.world_to_grid(position)
 	
 func _on_item_added(transaction: InventoryTransaction):
 	popup_component.popout_text("".join(["+", str(transaction.amount)]), Color.DARK_SEA_GREEN)
@@ -76,15 +77,11 @@ func _input(event):
 
 
 func get_pathfinding_path(start: Vector2, target: Vector2):
-	var previous_target = pathfinding_component.get_end_destination()
-	if previous_target != pos:
-		grid.set_cell_occupier(previous_target, null)
-		grid.set_cell_navigable(pos, true)
-		
 	pathfinding_component.get_pathfinding_path(start, target)
-	grid.set_cell_occupier(target, self)
-	grid.set_cell_navigable(pos, false)
 	
 
 func get_object_type():
 	return "Unit"
+	
+func _to_string():
+	return data.name
