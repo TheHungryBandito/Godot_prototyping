@@ -13,8 +13,7 @@ func _ready():
 	grid.set_parameters(width, height, cell_size)
 	grid.generate_grid()
 	pathfinding.initialize()
-
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
