@@ -1,0 +1,67 @@
+[gd_scene load_steps=15 format=3 uid="uid://bfd61s43t4al8"]
+
+[ext_resource type="Script" path="res://Scenes/Units/unit.gd" id="1_ennmx"]
+[ext_resource type="Texture2D" uid="uid://bsqp7123pbk8e" path="res://Art/Swordsmen/PNG Sequences/Idle/Idle_000.png" id="2_6xb4d"]
+[ext_resource type="PackedScene" uid="uid://b4tnhb04raqnr" path="res://Scenes/Components/health_component.tscn" id="3_pdcm5"]
+[ext_resource type="PackedScene" uid="uid://b1tcs6p6wvf60" path="res://Scenes/Components/movement_component.tscn" id="4_iydtp"]
+[ext_resource type="PackedScene" uid="uid://cblskj43wrj87" path="res://Scenes/Components/pathfinding_component.tscn" id="5_74tt8"]
+[ext_resource type="PackedScene" uid="uid://btox05dq1do6o" path="res://Scenes/Components/hitbox_component.tscn" id="6_1n6lk"]
+[ext_resource type="PackedScene" uid="uid://bsi8o8l8swvjr" path="res://Scenes/Components/selectable_component.tscn" id="7_lpbf0"]
+[ext_resource type="PackedScene" uid="uid://b8k3cul3jl0kq" path="res://Scenes/Components/attack_component.tscn" id="8_e23sa"]
+[ext_resource type="PackedScene" uid="uid://npotqslh2o0n" path="res://Scenes/Projectiles/projectile.tscn" id="9_ru0oh"]
+[ext_resource type="PackedScene" uid="uid://cg48bep5n1dus" path="res://Scenes/Components/inventory_component.tscn" id="10_hmit3"]
+[ext_resource type="PackedScene" uid="uid://cgusakxcgdi2i" path="res://Scenes/Components/popup_component.tscn" id="11_j6yve"]
+[ext_resource type="PackedScene" uid="uid://c2s3bpfhifee8" path="res://Scenes/Components/health_bar_component.tscn" id="12_xdjp3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mp6ve"]
+size = Vector2(82.75, 95.125)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_70tml"]
+radius = 46.0109
+
+[node name="Unit" type="Node2D"]
+script = ExtResource("1_ennmx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_6xb4d")
+centered = false
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_pdcm5")]
+
+[node name="MovementComponent" parent="." node_paths=PackedStringArray("moveable") instance=ExtResource("4_iydtp")]
+moveable = NodePath("..")
+
+[node name="PathfindingComponent" parent="." node_paths=PackedStringArray("unit") instance=ExtResource("5_74tt8")]
+unit = NodePath("..")
+
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("6_1n6lk")]
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(59, 53)
+shape = SubResource("RectangleShape2D_mp6ve")
+
+[node name="SelectableComponent" parent="." node_paths=PackedStringArray("selectable") instance=ExtResource("7_lpbf0")]
+selectable = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectableComponent"]
+position = Vector2(59, 53)
+shape = SubResource("CircleShape2D_70tml")
+
+[node name="AttackComponent" parent="." node_paths=PackedStringArray("sender") instance=ExtResource("8_e23sa")]
+sender = NodePath("..")
+projectile = ExtResource("9_ru0oh")
+attack_damage = 20.0
+
+[node name="FirePoint" type="Node2D" parent="."]
+position = Vector2(80, 56)
+
+[node name="InventoryComponent" parent="." instance=ExtResource("10_hmit3")]
+
+[node name="PopupComponent" parent="." instance=ExtResource("11_j6yve")]
+
+[node name="HealthBarComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("12_xdjp3")]
+offset_left = 43.0
+offset_right = 43.0
+health_component = NodePath("../HealthComponent")
