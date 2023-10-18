@@ -1,0 +1,57 @@
+[gd_scene load_steps=14 format=3 uid="uid://cpqlvet054t5n"]
+
+[ext_resource type="Script" path="res://Scenes/resource_node.gd" id="1_s10h5"]
+[ext_resource type="Texture2D" uid="uid://b1r4w4r8rxrbj" path="res://Art/stone_wall.png" id="2_aacdm"]
+[ext_resource type="PackedScene" uid="uid://btox05dq1do6o" path="res://Scenes/Components/hitbox_component.tscn" id="3_6mvty"]
+[ext_resource type="Resource" uid="uid://bs1nvspkwlout" path="res://Data/Item/wood.tres" id="3_wxwet"]
+[ext_resource type="PackedScene" uid="uid://b4tnhb04raqnr" path="res://Scenes/Components/health_component.tscn" id="4_6b8ah"]
+[ext_resource type="PackedScene" uid="uid://bsi8o8l8swvjr" path="res://Scenes/Components/selectable_component.tscn" id="5_uord2"]
+[ext_resource type="PackedScene" uid="uid://d1b18fiqud7w" path="res://Scenes/Components/harvestable_component.tscn" id="6_qwoxb"]
+[ext_resource type="Resource" uid="uid://blmehp7xyihrt" path="res://Data/Item/stone.tres" id="7_k4k5r"]
+[ext_resource type="PackedScene" uid="uid://cg48bep5n1dus" path="res://Scenes/Components/inventory_component.tscn" id="8_71g1g"]
+[ext_resource type="PackedScene" uid="uid://cgusakxcgdi2i" path="res://Scenes/Components/popup_component.tscn" id="9_85xvq"]
+[ext_resource type="PackedScene" uid="uid://c2s3bpfhifee8" path="res://Scenes/Components/health_bar_component.tscn" id="10_7hp15"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1y6xw"]
+size = Vector2(96, 104)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5bktp"]
+size = Vector2(128, 128)
+
+[node name="ResourceNode" type="Node2D"]
+script = ExtResource("1_s10h5")
+items = Array[Resource("res://Data/Scripts/item_data.gd")]([ExtResource("7_k4k5r"), ExtResource("3_wxwet")])
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_aacdm")
+centered = false
+
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_6mvty")]
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+position = Vector2(64, 60)
+shape = SubResource("RectangleShape2D_1y6xw")
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_6b8ah")]
+max_health = 2000.0
+health = 2000.0
+
+[node name="SelectableComponent" parent="." node_paths=PackedStringArray("selectable") instance=ExtResource("5_uord2")]
+selectable = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectableComponent"]
+position = Vector2(64, 64)
+shape = SubResource("RectangleShape2D_5bktp")
+
+[node name="HarvestableComponent" parent="." node_paths=PackedStringArray("inventory_component") instance=ExtResource("6_qwoxb")]
+inventory_component = NodePath("../InventoryComponent")
+
+[node name="InventoryComponent" parent="." instance=ExtResource("8_71g1g")]
+
+[node name="PopupComponent" parent="." instance=ExtResource("9_85xvq")]
+
+[node name="HealthBarComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("10_7hp15")]
+offset_left = 49.0
+offset_right = 49.0
+health_component = NodePath("../HealthComponent")

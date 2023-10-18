@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://vhgq1iwja2n2"]
+
+[ext_resource type="PackedScene" uid="uid://s750iuxac60w" path="res://Scenes/GUI/hud.tscn" id="1_jdgys"]
+[ext_resource type="Theme" uid="uid://vtm5wpb8ag2g" path="res://Scenes/GUI/theme/gui.tres" id="1_qwwng"]
+
+[node name="GUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("1_qwwng")
+
+[node name="HUD" parent="." instance=ExtResource("1_jdgys")]
+layout_mode = 1

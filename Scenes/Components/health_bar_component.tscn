@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://c2s3bpfhifee8"]
+
+[ext_resource type="Script" path="res://Scenes/Components/health_bar_component.gd" id="1_vu3pj"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_1ij53"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_55k3k"]
+
+[node name="HealthBarComponent" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vu3pj")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 5.0
+value = 50.0
+rounded = true
+nine_patch_stretch = true
+texture_under = SubResource("PlaceholderTexture2D_1ij53")
+texture_progress = SubResource("PlaceholderTexture2D_55k3k")
+tint_under = Color(0, 0, 0, 0.196078)
+tint_progress = Color(1, 0, 0, 1)

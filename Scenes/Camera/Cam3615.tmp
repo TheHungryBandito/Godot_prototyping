@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://3ina6e0cktq2"]
+
+[ext_resource type="Script" path="res://Scenes/Camera/CameraController.gd" id="1_7xp7b"]
+
+[node name="CameraController" type="Node2D"]
+script = ExtResource("1_7xp7b")
+speed = null
+min_zoom = null
+max_zoom = null
+zoom_factor = null
+zoom_duration = null
+
+[node name="Camera2D" type="Camera2D" parent="."]

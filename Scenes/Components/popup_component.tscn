@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgusakxcgdi2i"]
+
+[ext_resource type="Theme" uid="uid://vtm5wpb8ag2g" path="res://Scenes/GUI/theme/gui.tres" id="1_3nkq3"]
+[ext_resource type="Script" path="res://Scenes/Components/popup_component.gd" id="2_86337"]
+
+[node name="PopupComponent" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_3nkq3")
+script = ExtResource("2_86337")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme = ExtResource("1_3nkq3")
+bbcode_enabled = true
+text = "[font_size=][b][color=lightgreen]popup[/color][/b]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+
+[node name="Timer" type="Timer" parent="."]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=7 format=3 uid="uid://dceok0g2b82vv"]
+
+[ext_resource type="PackedScene" uid="uid://ckj2rc2jirggw" path="res://Scenes/World/world.tscn" id="1_r4eex"]
+[ext_resource type="PackedScene" uid="uid://3ina6e0cktq2" path="res://Scenes/Camera/camera_controller.tscn" id="2_gutkl"]
+[ext_resource type="PackedScene" uid="uid://vhgq1iwja2n2" path="res://Scenes/GUI/gui.tscn" id="3_i2e4k"]
+[ext_resource type="PackedScene" uid="uid://bdbab3h8j5tr2" path="res://Scenes/item_database.tscn" id="4_occr6"]
+[ext_resource type="Resource" uid="uid://blmehp7xyihrt" path="res://Data/Item/stone.tres" id="5_o8ggb"]
+[ext_resource type="Resource" uid="uid://bs1nvspkwlout" path="res://Data/Item/wood.tres" id="6_rf5vu"]
+
+[node name="Main" type="Node2D"]
+
+[node name="World" parent="." instance=ExtResource("1_r4eex")]
+
+[node name="CameraController" parent="." instance=ExtResource("2_gutkl")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI" parent="CanvasLayer" instance=ExtResource("3_i2e4k")]
+
+[node name="ItemDatabase" parent="." instance=ExtResource("4_occr6")]
+item_data_array = Array[Resource("res://Data/Scripts/item_data.gd")]([ExtResource("5_o8ggb"), ExtResource("6_rf5vu")])

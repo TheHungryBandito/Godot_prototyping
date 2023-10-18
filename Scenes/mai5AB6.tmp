@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://dceok0g2b82vv"]
+
+[ext_resource type="PackedScene" uid="uid://ckj2rc2jirggw" path="res://scenes/world/world.tscn" id="1_r4eex"]
+[ext_resource type="PackedScene" uid="uid://3ina6e0cktq2" path="res://scenes/camera/camera_controller.tscn" id="2_gutkl"]
+[ext_resource type="PackedScene" uid="uid://vhgq1iwja2n2" path="res://scenes/gui/gui.tscn" id="3_i2e4k"]
+
+[node name="Main" type="Node2D"]
+
+[node name="World" parent="." instance=ExtResource("1_r4eex")]
+
+[node name="CameraController" parent="." instance=ExtResource("2_gutkl")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI" parent="CanvasLayer" instance=ExtResource("3_i2e4k")]

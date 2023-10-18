@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://cbd1hv4augngu"]
+
+[ext_resource type="Texture2D" uid="uid://bbol5m1w1n3e6" path="res://Art/dirt.png" id="1_i40fn"]
+[ext_resource type="Texture2D" uid="uid://bdkv6badm5bpx" path="res://Art/grass.png" id="2_alywr"]
+[ext_resource type="Texture2D" uid="uid://e3gd4gbclmbm" path="res://Art/mud.png" id="3_5itbu"]
+[ext_resource type="Script" path="res://Scenes/World/grid.gd" id="4_twfpt"]
+[ext_resource type="PackedScene" uid="uid://b46prr50oevuf" path="res://Scenes/World/pathfinding.tscn" id="5_orpjh"]
+[ext_resource type="PackedScene" uid="uid://bfd61s43t4al8" path="res://Scenes/Units/unit.tscn" id="6_2ek8o"]
+[ext_resource type="PackedScene" uid="uid://cpqlvet054t5n" path="res://Scenes/rock.tscn" id="7_162os"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q3fou"]
+texture = ExtResource("1_i40fn")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+1:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p8gx8"]
+texture = ExtResource("2_alywr")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ii1od"]
+texture = ExtResource("3_5itbu")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_fn70x"]
+tile_size = Vector2i(128, 128)
+sources/0 = SubResource("TileSetAtlasSource_q3fou")
+sources/1 = SubResource("TileSetAtlasSource_p8gx8")
+sources/2 = SubResource("TileSetAtlasSource_ii1od")
+
+[node name="Grid" type="TileMap"]
+tile_set = SubResource("TileSet_fn70x")
+format = 2
+layer_0/name = "floor"
+layer_1/name = "item"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array()
+layer_2/name = "building"
+layer_2/enabled = true
+layer_2/modulate = Color(1, 1, 1, 1)
+layer_2/y_sort_enabled = false
+layer_2/y_sort_origin = 0
+layer_2/z_index = 2
+layer_2/tile_data = PackedInt32Array()
+script = ExtResource("4_twfpt")
+show_debug = true
+
+[node name="Pathfinding" parent="." instance=ExtResource("5_orpjh")]
+
+[node name="Debug" type="Node2D" parent="."]
+
+[node name="Units" type="Node2D" parent="."]
+
+[node name="Unit2" parent="Units" instance=ExtResource("6_2ek8o")]
+position = Vector2(256, 0)
+
+[node name="Unit" parent="Units" instance=ExtResource("6_2ek8o")]
+
+[node name="ProjectilePool" type="Node2D" parent="."]
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="Rock" parent="Objects" instance=ExtResource("7_162os")]
+position = Vector2(0, 128)

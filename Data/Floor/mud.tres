@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="FloorData" load_steps=2 format=3 uid="uid://cvc21op4503gh"]
+
+[ext_resource type="Script" path="res://Data/Scripts/floor_data.gd" id="1_gohe8"]
+
+[resource]
+script = ExtResource("1_gohe8")
+name = "Mud"
+id = 2
+coords = Vector2(0, 0)

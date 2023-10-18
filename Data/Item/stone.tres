@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3 uid="uid://blmehp7xyihrt"]
+
+[ext_resource type="Script" path="res://Data/Scripts/item_data.gd" id="1_fyljp"]
+
+[resource]
+script = ExtResource("1_fyljp")
+name = "stone"
+edible = false
