@@ -26,7 +26,6 @@ var pos: Vector2 :
 		if grid.get_cell_occupier(pos) == null:
 			grid.set_cell_occupier(pos, self)
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	grid.on_grid_generated.connect(_on_grid_generated)
@@ -38,13 +37,15 @@ func _ready():
 	inventory_component.on_item_removed.connect(_on_item_removed)
 	sight_component.on_sight_entered.connect(_on_sight_entered)
 	sight_component.on_sight_exited.connect(_on_sight_exited)
-	
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	move(delta)
-
+	targeting()
+	
 func _on_grid_generated():
 	pos = grid.world_to_grid(position)
+	position = grid.grid_to_world(pos)
 
 func _on_sight_entered(area):
 	print_debug(self._to_string() + " can now see " + str(area))
@@ -57,7 +58,18 @@ func _on_item_added(transaction: InventoryTransaction):
 
 func _on_item_removed(transaction: InventoryTransaction):
 	popup_component.popout_text("".join(["-", str(transaction.amount)]), Color.FIREBRICK)
-	
+
+func _input(event):
+	if event.is_action_pressed("middle_click"):
+		if !selectable_component.is_selected:
+			return
+		
+	if event.is_action_pressed("left_click"):
+		if !selectable_component.is_selected:
+			return
+			
+		get_pathfinding_path(pos, grid.world_to_grid(get_global_mouse_position()))
+
 func move(delta):
 	if pathfinding_component.has_path():
 		pathfinding_component.update_path()
@@ -70,27 +82,27 @@ func move(delta):
 			data.speed, 
 			destination,
 		)
-
-func _input(event):
-	if event.is_action_pressed("middle_click"):
-		if !selectable_component.is_selected:
-			return
 		
-		attack_component.do_attack(fire_point.global_position, get_global_mouse_position())
+func damage(attack: Attack):
+	if health_component:
+		health_component.damage(attack)
 		
-	if event.is_action_pressed("left_click"):
-		if !selectable_component.is_selected:
-			return
-			
-		get_pathfinding_path(pos, grid.world_to_grid(get_global_mouse_position()))
+func targeting():
+	var target = sight_component.get_closest()
+	if target == null:
+		return
+	if not target.has_method("damage"):
+		return
+	attack(target.global_position + grid.get_cell_center_offset())
 
-
+func attack(target: Vector2):
+	attack_component.do_attack(fire_point.global_position, target)
+	
 func get_pathfinding_path(start: Vector2, target: Vector2):
 	pathfinding_component.get_pathfinding_path(start, target)
 	
-
 func get_object_type():
 	return "Unit"
-	
+
 func _to_string():
 	return data.name
