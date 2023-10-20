@@ -26,8 +26,7 @@ items = Array[Resource("res://Data/Scripts/item_data.gd")]([ExtResource("7_k4k5r
 texture = ExtResource("2_aacdm")
 centered = false
 
-[node name="HitboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_6mvty")]
-health_component = NodePath("../HealthComponent")
+[node name="HitboxComponent" parent="." instance=ExtResource("3_6mvty")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
 position = Vector2(64, 60)
