@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bfd61s43t4al8"]
+[gd_scene load_steps=17 format=3 uid="uid://bfd61s43t4al8"]
 
 [ext_resource type="Script" path="res://Scenes/Units/unit.gd" id="1_ennmx"]
 [ext_resource type="Texture2D" uid="uid://bsqp7123pbk8e" path="res://Art/Swordsmen/PNG Sequences/Idle/Idle_000.png" id="2_6xb4d"]
@@ -12,12 +12,16 @@
 [ext_resource type="PackedScene" uid="uid://cg48bep5n1dus" path="res://Scenes/Components/inventory_component.tscn" id="10_hmit3"]
 [ext_resource type="PackedScene" uid="uid://cgusakxcgdi2i" path="res://Scenes/Components/popup_component.tscn" id="11_j6yve"]
 [ext_resource type="PackedScene" uid="uid://c2s3bpfhifee8" path="res://Scenes/Components/health_bar_component.tscn" id="12_xdjp3"]
+[ext_resource type="PackedScene" uid="uid://bjlqqrnhh6ndo" path="res://Scenes/Components/sight_component.tscn" id="13_1oe8d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mp6ve"]
 size = Vector2(82.75, 95.125)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_70tml"]
 radius = 46.0109
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6hbm4"]
+radius = 231.728
 
 [node name="Unit" type="Node2D"]
 script = ExtResource("1_ennmx")
@@ -43,6 +47,7 @@ position = Vector2(59, 53)
 shape = SubResource("RectangleShape2D_mp6ve")
 
 [node name="SelectableComponent" parent="." node_paths=PackedStringArray("selectable") instance=ExtResource("7_lpbf0")]
+collision_layer = 2
 selectable = NodePath("..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SelectableComponent"]
@@ -65,3 +70,13 @@ position = Vector2(80, 56)
 offset_left = 43.0
 offset_right = 43.0
 health_component = NodePath("../HealthComponent")
+
+[node name="SightComponent" parent="." instance=ExtResource("13_1oe8d")]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SightComponent"]
+position = Vector2(59, 53)
+shape = SubResource("CircleShape2D_6hbm4")
+
+[connection signal="area_entered" from="SightComponent" to="SightComponent" method="_on_area_entered"]
+[connection signal="area_exited" from="SightComponent" to="SightComponent" method="_on_area_exited"]

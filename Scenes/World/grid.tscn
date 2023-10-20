@@ -71,7 +71,7 @@ _thresholds = Array[float]([0.2, 0.3, 0.5])
 [node name="Units" type="Node2D" parent="."]
 
 [node name="Unit2" parent="Units" instance=ExtResource("6_2ek8o")]
-position = Vector2(256, 0)
+position = Vector2(538, 0)
 
 [node name="Unit" parent="Units" instance=ExtResource("6_2ek8o")]
 

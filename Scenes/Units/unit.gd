@@ -11,6 +11,7 @@ extends Node2D
 @onready var attack_component: AttackComponent = get_node("AttackComponent")
 @onready var inventory_component: InventoryComponent = get_node("InventoryComponent")
 @onready var popup_component: PopupComponent = get_node("PopupComponent")
+@onready var sight_component: SightComponent = get_node("SightComponent")
 @onready var fire_point: Node2D = get_node("FirePoint")
 
 var data: UnitData = UnitData.new()
@@ -35,6 +36,8 @@ func _ready():
 	
 	inventory_component.on_item_added.connect(_on_item_added)
 	inventory_component.on_item_removed.connect(_on_item_removed)
+	sight_component.on_sight_entered.connect(_on_sight_entered)
+	sight_component.on_sight_exited.connect(_on_sight_exited)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -42,7 +45,13 @@ func _process(delta):
 
 func _on_grid_generated():
 	pos = grid.world_to_grid(position)
+
+func _on_sight_entered(area):
+	print_debug(self._to_string() + " can now see " + str(area))
 	
+func _on_sight_exited(area):
+	print_debug(self._to_string() + " can no longer see " + str(area))
+
 func _on_item_added(transaction: InventoryTransaction):
 	popup_component.popout_text("".join(["+", str(transaction.amount)]), Color.DARK_SEA_GREEN)
 
