@@ -35,11 +35,11 @@ func collide_projectile(area):
 		return
 	if attack == null:
 		return
-	if area.get_parent() == attack.sender:
+	if area.owner == attack.sender:
 		return
-	if !area.has_method("damage"):
+	if !area.owner.has_method("damage"):
 		return
-	area.damage(attack)
+	area.owner.damage(attack)
 	health_component.die()
 
 
