@@ -1,6 +1,6 @@
-# Godot_prototyping
- Prototyping for godot game dev
+# Godot Prototyping
 
+Game dev prototyping for godot created by Joshua Crews (@TheHungryBandito)
 
 ## Components
 
