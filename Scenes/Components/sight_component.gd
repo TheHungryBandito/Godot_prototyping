@@ -23,16 +23,23 @@ func _on_area_exited(area: Area2D):
 	objects_in_sight.remove_at(objects_in_sight.find(area.owner))
 	on_sight_exited.emit(area.owner)
 
-func get_closest() -> Node2D:
+func get_closest(type_name: String) -> Node2D:
 	if objects_in_sight.is_empty():
 		return null
 	var closest = null
 	var distance = 9999.00
 	var duplicate_array = objects_in_sight.duplicate()
 	for visible_object in objects_in_sight:
-		if position.distance_to(visible_object.position) < distance:
-			distance = position.distance_to(visible_object.position)
+		if not visible_object.has_method("compare_type"):
+			continue
+		if not visible_object.compare_type(type_name):
+			continue
+		if abs(position.distance_to(abs(visible_object.position))) < distance:
+			distance = abs(position.distance_to(abs(visible_object.position)))
 			closest = visible_object
+	if closest:
+		print_debug("Closest in sight: " + str(closest))
+		print_debug("Closest in sight distance: " + str(distance))
 	return closest
 
 func get_furthest() -> Node2D:
@@ -42,8 +49,8 @@ func get_furthest() -> Node2D:
 	var distance = 0
 	var duplicate_array = objects_in_sight.duplicate()
 	for visible_object in objects_in_sight:
-		if position.distance_to(visible_object.position) > distance:
-			distance = position.distance_to(visible_object.position)
+		if abs(position.distance_to(abs(visible_object.position))) > distance:
+			distance = abs(position.distance_to(abs(visible_object.position)))
 			furthest = visible_object
 	return furthest
 
