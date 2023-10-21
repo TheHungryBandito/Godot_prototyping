@@ -1,5 +1,7 @@
 class_name ResourceNode
-extends Node2D
+extends Entity
+
+@export var items: Array[ItemData] = []
 
 @onready var main = get_tree().root.get_node("Main")
 @onready var grid: Grid = main.get_node("World/Grid")
@@ -11,8 +13,6 @@ extends Node2D
 
 var data: ResourceData = ResourceData.new()
 
-@export var items: Array[ItemData] = []
-
 var pos: Vector2 :
 	get:
 		return pos
@@ -22,7 +22,7 @@ var pos: Vector2 :
 		pos = value
 		if grid.get_cell_occupier(pos) == null:
 			grid.set_cell_occupier(pos, self)
-
+			
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	grid.on_grid_generated.connect(_on_grid_generated)
@@ -35,6 +35,7 @@ func _ready():
 	
 	harvestable_component.initialize(data.stored_resources)
 	health_component.on_damaged.connect(harvest)
+	health_component.on_die.connect(_on_die)
 	inventory_component.on_item_added.connect(_on_item_added)
 	inventory_component.on_item_removed.connect(_on_item_removed)
 
@@ -46,6 +47,9 @@ func _on_item_added(transaction: InventoryTransaction):
 
 func _on_item_removed(transaction: InventoryTransaction):
 	popup_component.popout_text("".join(["-", str(transaction.amount)]), Color.FIREBRICK)
+
+func _on_die():
+	queue_free()
 	
 func harvest(attack: Attack):
 	if not attack:
