@@ -1,5 +1,5 @@
 class_name Unit
-extends Node2D
+extends Entity
 
 @onready var main = get_tree().root.get_node("Main")
 @onready var grid: Grid = main.get_node("World/Grid")
@@ -25,6 +25,7 @@ var pos: Vector2 :
 		pos = value
 		if grid.get_cell_occupier(pos) == null:
 			grid.set_cell_occupier(pos, self)
+			
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -33,6 +34,7 @@ func _ready():
 	data.description = "Old Fool"
 	data.stats = "Super Buff"
 	
+	health_component.on_die.connect(_on_die)
 	inventory_component.on_item_added.connect(_on_item_added)
 	inventory_component.on_item_removed.connect(_on_item_removed)
 	sight_component.on_sight_entered.connect(_on_sight_entered)
@@ -59,6 +61,10 @@ func _on_item_added(transaction: InventoryTransaction):
 func _on_item_removed(transaction: InventoryTransaction):
 	popup_component.popout_text("".join(["-", str(transaction.amount)]), Color.FIREBRICK)
 
+func _on_die():
+	grid.set_cell_occupier(pos, null)
+	queue_free()
+	
 func _input(event):
 	if event.is_action_pressed("middle_click"):
 		if !selectable_component.is_selected:
@@ -88,10 +94,8 @@ func damage(attack: Attack):
 		health_component.damage(attack)
 		
 func targeting():
-	var target = sight_component.get_closest()
+	var target = sight_component.get_closest("Unit")
 	if target == null:
-		return
-	if not target.has_method("damage"):
 		return
 	attack(target.global_position + grid.get_cell_center_offset())
 
@@ -101,8 +105,10 @@ func attack(target: Vector2):
 func get_pathfinding_path(start: Vector2, target: Vector2):
 	pathfinding_component.get_pathfinding_path(start, target)
 	
+func _to_string():
+	return data.name
+	
 func get_object_type():
 	return "Unit"
 
-func _to_string():
-	return data.name
+
