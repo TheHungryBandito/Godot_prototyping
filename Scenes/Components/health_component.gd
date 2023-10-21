@@ -2,6 +2,7 @@ class_name HealthComponent
 extends Node2D
 
 signal on_damaged(attack)
+signal on_die()
 signal on_health_changed(health)
 signal on_max_health_changed(max_health)
 
@@ -21,4 +22,5 @@ func damage(attack: Attack):
 		die()
 
 func die():
-	get_parent().queue_free()
+	on_die.emit()
+
