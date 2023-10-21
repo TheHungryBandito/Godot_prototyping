@@ -2,6 +2,7 @@ class_name StateMachine
 extends Node2D
 
 @export var initial_state : State
+
 var cur_state : State
 var states : Dictionary = {}
 
