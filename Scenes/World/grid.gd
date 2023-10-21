@@ -88,7 +88,7 @@ func world_to_nearest_grid(world_pos: Vector2) -> Vector2:
 	return round(world_pos / _cell_size)
 	
 func get_cell_center_offset() -> Vector2:
-	return Vector2(_height / _cell_size, _width / _cell_size)
+	return Vector2(_cell_size/2, _cell_size/2)
 	
 func get_cell_data(grid_pos: Vector2) -> CellData:
 	if not grid.has(grid_pos):
